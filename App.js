@@ -1,20 +1,52 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
+import HomeScreen from './Screens/HomeScreen';
+import CartScreen from './Screens/CartScreen';
+import CartProducts from './Screens/CartProducts'; // Import CartProducts
+import ProfileScreen from './Screens/ProfileScreen';
 
-export default function App() {
+const Tab = createBottomTabNavigator();
+const CartStack = createStackNavigator();
+
+function CartStackNavigator() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <CartStack.Navigator>
+      <CartStack.Screen 
+        name="CartScreen" 
+        component={CartScreen} 
+        options={{ title: '' }} 
+      />
+      <CartStack.Screen 
+        name="CartProducts" 
+        component={CartProducts} 
+        options={{ title: 'My Cart' }} 
+      />
+    </CartStack.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen 
+          name="Home" 
+          component={HomeScreen} 
+          options={{ title: 'Home' }} 
+        />
+        <Tab.Screen 
+          name="Cart" 
+          component={CartStackNavigator}  // Use the CartStackNavigator here
+          options={{ title: 'Cart' }} 
+        />
+        <Tab.Screen 
+          name="Profile" 
+          component={ProfileScreen} 
+          options={{ title: 'Profile' }} 
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
